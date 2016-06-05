@@ -1,7 +1,7 @@
 import {Page} from 'ionic-angular';
 import {MeditatePage} from '../meditate/meditate.page';
 import {HistoryPage} from '../history/history.page';
-import {Page3} from '../page3/page3';
+import {SettingsPage} from '../settings/settings.page';
 
 
 @Page({
@@ -10,5 +10,5 @@ import {Page3} from '../page3/page3';
 export class TabsPage {
   meditateTabRoot: any = MeditatePage;
   historyTabRoot: any = HistoryPage;
-  tab3Root: any = Page3;
+  settingsTabRoot: any = SettingsPage;
 }
