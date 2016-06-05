@@ -1,3 +1,13 @@
 .meditate-page {
+  .time-container {
+    height: 20rem;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .time-text {
+      font-size: 10rem;
+    }
+  }
 }
