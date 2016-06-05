@@ -5,7 +5,19 @@ import {Page} from 'ionic-angular';
   templateUrl: 'build/pages/history/history.page.html',
 })
 export class HistoryPage {
-  constructor() {
+  public sessions:Session[];
 
+  constructor() {
+    // Fill sessions with mock data
+    this.sessions = [];
+    for (let i = 0; i < 15; i++) {
+      this.sessions.push(
+        new Session(new Date(), "5 minutes")
+      );
+    }
   }
+}
+
+class Session {
+  constructor(public date:Date, public duration:string) { }
 }
