@@ -26,11 +26,10 @@ export class TimerService {
 
     const source = Observable.timer(0, 100)
         .timeInterval()
-        .pluck('interval')
-        .scan((sum:number, currDuration:number):number => {return sum + currDuration;}, 0);
+        .pluck('interval');
 
     this._subscription = source.subscribe(
-      (x) => {
+      (x:number) => {
         this.duration$.next(x);
       },
       (err) => {
