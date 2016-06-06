@@ -18,14 +18,16 @@ export class DurationTimerService {
     this.duration$ = new BehaviorSubject<number>(0);
 
     const source = this._timerService.timer$
-      .scan((sum:number, currDuration:number):number => {return sum + currDuration;}, this._duration);
+      .map((incrementalDuration:number):number => { return this._duration + incrementalDuration; });
 
     this._subscription = source.subscribe(
-      (x) => {
-        this.duration$.next(x);
+      (newDuration:number) => {
+        this._duration = newDuration;
+
+        this.duration$.next(newDuration);
       },
       (err) => {
-        console.log('Error: ' + err);
+        console.error('Error: ' + err);
       }
     );
   }
