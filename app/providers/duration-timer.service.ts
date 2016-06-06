@@ -20,11 +20,12 @@ export class DurationTimerService {
     const source = this._timerService.timer$
       .map((incrementalDuration:number):number => { return this._duration + incrementalDuration; });
 
+    const durationEmitter = this._emitDuration.bind(this);
     this._subscription = source.subscribe(
       (newDuration:number) => {
         this._duration = newDuration;
 
-        this.duration$.next(newDuration);
+        durationEmitter();
       },
       (err) => {
         console.error('Error: ' + err);
@@ -42,6 +43,13 @@ export class DurationTimerService {
     } else {
       this._runTimer();
     }
+  }
+  
+  public stop() {
+    this._stopTimer();
+
+    this._duration = 0;
+    this._emitDuration();
   }
 
   private _runTimer() {
@@ -62,9 +70,7 @@ export class DurationTimerService {
     }
   }
 
-  public stop() {
-    this._stopTimer();
-
-    this._duration = 0;
+  private _emitDuration() {
+    this.duration$.next(this._duration);
   }
 }
