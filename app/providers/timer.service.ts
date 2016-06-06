@@ -7,12 +7,12 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class TimerService {
-  public duration$:BehaviorSubject<number>;
+  public timer$:BehaviorSubject<number>;
   private _subscription:Subscription;
   private _isRunning:boolean = false;
 
   constructor() {
-    this.duration$ = new BehaviorSubject<number>(0);
+    this.timer$ = new BehaviorSubject<number>(0);
   }
 
   public get isRunning():boolean {
@@ -30,7 +30,7 @@ export class TimerService {
 
     this._subscription = source.subscribe(
       (x:number) => {
-        this.duration$.next(x);
+        this.timer$.next(x);
       },
       (err) => {
         console.log('Error: ' + err);

@@ -8,7 +8,10 @@
   </div>
   <ion-row>
     <ion-col width-25 offset-25>
-      <button dark block (click)="onClickStartPause()">Start</button>
+      <button dark block (click)="onClickStartPause()">
+        <span *ngIf="!isTimerRunning">Start</span>
+        <span *ngIf="isTimerRunning">Pause</span>
+      </button>
     </ion-col>
     <ion-col width-25>
       <button dark block (click)="onClickStop()">Stop</button>
