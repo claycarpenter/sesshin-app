@@ -4,14 +4,19 @@
 
 <ion-content padding class="meditate-page">
   <div class="time-container">
-    <span class="time-text">5:00</span>
+    <span class="time-text">{{ (timerState$ | async).duration | momentTime }}</span>
   </div>
   <ion-row>
     <ion-col width-25 offset-25>
-      <button dark block>Start</button>
+      <button dark block (click)="onClickStartPause()">
+        <span *ngIf="!isTimerRunning">
+          {{ (timerState$ | async).isRunning ? 'Pause' : 'Start' }}
+        </span>
+        <span *ngIf="isTimerRunning">Pause</span>
+      </button>
     </ion-col>
     <ion-col width-25>
-      <button dark block>Stop</button>
+      <button dark block (click)="onClickStop()">Stop</button>
     </ion-col>
   </ion-row>
   <ion-row>
