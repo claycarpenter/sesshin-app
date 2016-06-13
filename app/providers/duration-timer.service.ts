@@ -8,14 +8,14 @@ import {TimerService} from './timer.service';
 
 @Injectable()
 export class DurationTimerService {
-  public duration$:BehaviorSubject<number>;
+  public timerState$:BehaviorSubject<TimerState>;
   private _timer$:Observable<number>;
   private _subscription:Subscription;
   private _isRunning:boolean = false;
   private _duration:number = 0;
 
   constructor(private _timerService:TimerService) {
-    this.duration$ = new BehaviorSubject<number>(0);
+    this.timerState$ = new BehaviorSubject<TimerState>({isRunning: false, duration: 0});
 
     const source = this._timerService.timer$
       .map((incrementalDuration:number):number => { return this._duration + incrementalDuration; });
@@ -33,7 +33,8 @@ export class DurationTimerService {
     );
   }
 
-  public get isRunning():boolean {
+  // Is there any reason to expose this publicly? I don't think so...
+  private get isRunning():boolean {
     return this._isRunning;
   }
 
@@ -44,7 +45,7 @@ export class DurationTimerService {
       this._runTimer();
     }
   }
-  
+
   public stop() {
     this._stopTimer();
 
@@ -60,6 +61,8 @@ export class DurationTimerService {
     this._timerService.start();
 
     this._isRunning = true;
+
+    this._emitDuration();
   }
 
   private _stopTimer() {
@@ -68,9 +71,19 @@ export class DurationTimerService {
 
       this._isRunning = false;
     }
+
+    this._emitDuration();
   }
 
   private _emitDuration() {
-    this.duration$.next(this._duration);
+    this.timerState$.next({
+      isRunning: this.isRunning,
+      duration: this._duration
+    });
   }
+}
+
+export interface TimerState {
+  isRunning: boolean;
+  duration: number;
 }
